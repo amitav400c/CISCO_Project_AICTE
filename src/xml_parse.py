@@ -1,20 +1,19 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
-import json
 
 
 # ============================================================
 # PATHS
 # ============================================================
 
-# Folder containing XML files
+# Folder containing the original XML files
 XML_FOLDER = Path(__file__).parent.parent / "pkt_test_files" / "output"
 
-# Folder where individual extracted feature files will be saved
+# Folder where extracted feature XML files will be saved
 FEATURES_FOLDER = (
     Path(__file__).parent.parent
     / "pkt_test_files"
-    / "useful_features"
+    / "Useful_features"
 )
 
 
@@ -91,10 +90,12 @@ def extract_device(device):
             tag = get_tag(child)
 
             if tag in ["NAME", "DEVICE_NAME"]:
+
                 if not data["device_name"]:
                     data["device_name"] = clean_text(child.text)
 
             elif tag in ["TYPE", "DEVICE_TYPE"]:
+
                 if not data["device_type"]:
                     data["device_type"] = clean_text(child.text)
 
@@ -126,7 +127,7 @@ def extract_device(device):
                 if value:
                     interface["name"] = value
 
-            # IPv4 / IPv6 address
+            # IP address
             elif tag in [
                 "IP_ADDRESS",
                 "IPV4_ADDRESS",
@@ -173,7 +174,6 @@ def extract_device(device):
                 if value:
                     interface["status"] = value
 
-        # Add interface only if something was actually found
         if interface:
             data["interfaces"].append(interface)
 
@@ -204,7 +204,7 @@ def extract_device(device):
         "END"
     ]
 
-    # Keep track of XML elements belonging to PORTs.
+    # Keep track of elements inside PORT
     port_elements = set()
 
     for port in device.iter():
@@ -214,8 +214,7 @@ def extract_device(device):
             for item in port.iter():
                 port_elements.add(id(item))
 
-    # Extract configuration values
-
+    # Extract configuration
     for item in device.iter():
 
         # Skip anything inside a PORT
@@ -246,7 +245,6 @@ def extract_device(device):
             if not value:
                 continue
 
-            # Check whether this looks like configuration
             if any(
                 word in tag
                 for word in configuration_keywords
@@ -265,12 +263,10 @@ def extract_xml(xml_file):
 
     print(f"\nReading: {xml_file.name}")
 
-    # Parse XML
+    # Parse original XML
     tree = ET.parse(xml_file)
-
     root = tree.getroot()
 
-    # Result structure
     result = {
         "file": xml_file.name,
         "devices": [],
@@ -308,19 +304,17 @@ def extract_xml(xml_file):
 
             connection = {}
 
-            # Extract leaf values inside the connection
+            # Extract leaf values
             for item in element.iter():
 
                 if len(item) == 0 and item.text:
 
                     tag = get_tag(item)
-
                     value = clean_text(item.text)
 
                     if value:
                         connection[tag] = value
 
-            # Only save non-empty connections
             if connection:
                 result["topology"].append(connection)
 
@@ -328,13 +322,98 @@ def extract_xml(xml_file):
 
 
 # ============================================================
+# CONVERT EXTRACTED DATA TO XML
+# ============================================================
+
+def add_dict_to_xml(parent, data):
+
+    """
+    Convert a Python dictionary/list structure
+    into XML elements.
+    """
+
+    if isinstance(data, dict):
+
+        for key, value in data.items():
+
+            # Make sure the XML tag is valid
+            safe_key = str(key).replace(" ", "_")
+
+            element = ET.SubElement(parent, safe_key)
+
+            if isinstance(value, (dict, list)):
+
+                add_dict_to_xml(element, value)
+
+            else:
+
+                element.text = str(value)
+
+    elif isinstance(data, list):
+
+        for item in data:
+
+            item_element = ET.SubElement(parent, "item")
+
+            if isinstance(item, (dict, list)):
+
+                add_dict_to_xml(item_element, item)
+
+            else:
+
+                item_element.text = str(item)
+
+
+# ============================================================
+# SAVE ONE FEATURE XML FILE
+# ============================================================
+
+def save_features_xml(data, original_file):
+
+    # Make sure Useful_features folder exists
+    FEATURES_FOLDER.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    # Remove .xml from original filename
+    output_name = (
+        original_file.stem
+        + "_features.xml"
+    )
+
+    output_file = FEATURES_FOLDER / output_name
+
+    # Root element
+    root = ET.Element("extracted_features")
+
+    # Add extracted information
+    add_dict_to_xml(root, data)
+
+    # Create XML tree
+    tree = ET.ElementTree(root)
+
+    # Pretty formatting where supported
+    try:
+        ET.indent(tree, space="    ")
+    except AttributeError:
+        pass
+
+    # Save XML
+    tree.write(
+        output_file,
+        encoding="utf-8",
+        xml_declaration=True
+    )
+
+    return output_file
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
 def main():
-
-    # Create useful_features folder if it doesn't exist
-    FEATURES_FOLDER.mkdir(parents=True, exist_ok=True)
 
     # Find all XML files
     xml_files = list(
@@ -345,6 +424,16 @@ def main():
         f"Found {len(xml_files)} XML files."
     )
 
+    if not xml_files:
+
+        print(
+            f"No XML files found in: {XML_FOLDER}"
+        )
+
+        return
+
+    successful = 0
+
     # ========================================================
     # PROCESS EACH XML FILE
     # ========================================================
@@ -353,28 +442,8 @@ def main():
 
         try:
 
+            # Extract useful information
             data = extract_xml(xml_file)
-
-            # ------------------------------------------------
-            # Create one JSON file for EACH XML file
-            # ------------------------------------------------
-
-            output_name = xml_file.stem + "_features.json"
-
-            output_file = FEATURES_FOLDER / output_name
-
-            with open(
-                output_file,
-                "w",
-                encoding="utf-8"
-            ) as file:
-
-                json.dump(
-                    data,
-                    file,
-                    indent=4,
-                    ensure_ascii=False
-                )
 
             print(
                 f"    Devices found: "
@@ -386,10 +455,17 @@ def main():
                 f"{len(data['topology'])}"
             )
 
-            print(
-                f"    Saved features to: "
-                f"{output_file}"
+            # Save individual feature XML
+            output_file = save_features_xml(
+                data,
+                xml_file
             )
+
+            print(
+                f"    Saved to: {output_file}"
+            )
+
+            successful += 1
 
         except Exception as error:
 
@@ -405,7 +481,11 @@ def main():
     print("\n--------------------------------")
     print("Extraction completed!")
     print(
-        f"Feature files saved in: {FEATURES_FOLDER}"
+        f"Successfully created "
+        f"{successful} feature XML files."
+    )
+    print(
+        f"Output folder: {FEATURES_FOLDER}"
     )
     print("--------------------------------")
 
