@@ -1,0 +1,1166 @@
+{
+    "file": "2020-06-18 OSPF.xml",
+    "devices": [
+        {
+            "device_name": "Power Distribution Device0",
+            "device_type": "Power Distribution Device",
+            "interfaces": [],
+            "configuration": {
+                "STARTTIME": "730965600000",
+                "STARTSIMTIME": "0"
+            }
+        },
+        {
+            "device_name": "Server1",
+            "device_type": "Server",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0001.97B2.D6E0"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "1647996120000",
+                "STARTSIMTIME": "0",
+                "GATEWAY": "10.30.0.1",
+                "SERVER_IP": "10.30.0.10",
+                "SERVER_IPV6": "2001:DB8:6783:30::3",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "1",
+                "ADV_SEND_ADVERTISEMENT": "1",
+                "ADV_OTHER_CONFIG_FLAG": "0",
+                "ADV_DEFAULT_LIFETIME": "1800",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "IPADDRESS": "10.30.0.2",
+                "MASK": "255.255.255.0",
+                "DEFAULT_ROUTER": "10.4.0.1",
+                "START_IP": "10.4.0.101",
+                "END_IP": "10.4.0.110",
+                "DNS_SERVER": "10.30.0.10",
+                "IP_ADDRESS": "10.30.0.56",
+                "HOST_PORT": "FastEthernet0",
+                "ENABLED_SERVER_AUTHENTICATE": "1",
+                "HOST_IP": "10.30.0.2",
+                "DESCRIPTION": "WLC",
+                "SERVER_TYPE": "RADIUS"
+            }
+        },
+        {
+            "device_name": "MLS1",
+            "device_type": "MultiLayerSwitch",
+            "interfaces": [
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D01"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D02"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D03"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D04"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D05"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D06"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D07"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D08"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D09"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0A"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0B"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0C"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0D"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0E"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D0F"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D10"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D11"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D12"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D13"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D14"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D15"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D16"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D17"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.4A12.2D18"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0001.9735.6B01"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0001.9735.6B02"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0001.9735.6B03"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0001.9735.6B04"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "1652400980000",
+                "STARTSIMTIME": "0",
+                "VLAN_COUNT": "10",
+                "CONFIG_REVISION": "47",
+                "UPDATER_IP": "10.10.0.1",
+                "CONFIG_REGISTER": "8450",
+                "NEXT_CONFIG_REGISTER": "8450",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "DEFAULT": "0",
+                "SCP_SERVER_ENABLED": "false"
+            }
+        },
+        {
+            "device_name": "SW1",
+            "device_type": "Switch",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4801"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4802"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4803"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4804"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4805"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4806"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4807"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4808"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4809"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480A"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480B"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480C"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480D"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480E"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.480F"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4810"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4811"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4812"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4813"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4814"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4815"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4816"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4817"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0030.F2ED.4818"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0030.F2ED.4819"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0030.F2ED.481A"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "0",
+                "VLAN_COUNT": "10",
+                "CONFIG_REVISION": "47",
+                "UPDATER_IP": "10.10.0.1",
+                "CONFIG_REGISTER": "15",
+                "NEXT_CONFIG_REGISTER": "15",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "SCP_SERVER_ENABLED": "false"
+            }
+        },
+        {
+            "device_name": "WLC",
+            "device_type": "WirelessLanController",
+            "interfaces": [
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0060.7084.5701"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0060.7084.5702"
+                },
+                {
+                    "mac_address": "0060.7084.5703"
+                },
+                {
+                    "mac_address": "0060.7084.5704"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0060.7084.5705"
+                },
+                {
+                    "type": "eVlan",
+                    "mac_address": "00E0.8F85.0782"
+                },
+                {
+                    "type": "eWlcInterface",
+                    "mac_address": "0001.C902.02D6",
+                    "name": "management"
+                },
+                {
+                    "type": "eWlcInterface",
+                    "mac_address": "0090.0C3D.05CB",
+                    "name": "virtual"
+                },
+                {
+                    "type": "eWlcInterface",
+                    "mac_address": "0030.A322.4338",
+                    "name": "VLAN 10 Users"
+                },
+                {
+                    "type": "eWlcInterface",
+                    "mac_address": "0090.0C1B.EE3B",
+                    "name": "VLAN 20 Guests"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "1588394025000",
+                "STARTSIMTIME": "0",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "SCP_SERVER_ENABLED": "false",
+                "CONFIG_REVISION": "0",
+                "UPDATER_IP": "0.0.0.0",
+                "HOSTNAME": "WLC",
+                "SSID": "GuestWifi",
+                "RADIUS_IP": "10.30.0.10",
+                "RADIUS_SERVER_INDEX": "0",
+                "VLAN": "20",
+                "IP": "10.30.0.10",
+                "MASK": "255.255.255.240",
+                "DEFAULT_ROUTER": "192.168.1.1",
+                "START_IP": "192.168.1.3",
+                "END_IP": "192.168.1.14",
+                "DNS_SERVER": "192.168.1.1"
+            }
+        },
+        {
+            "device_name": "AP1",
+            "device_type": "LightWeightAccessPoint",
+            "interfaces": [
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.97AE.D201"
+                },
+                {
+                    "type": "eAccessPointWirelessN",
+                    "mac_address": "00D0.97AE.D202"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "0",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "SCP_SERVER_ENABLED": "false",
+                "SSID": "GuestWifi",
+                "RADIUS_IP": "10.30.0.10",
+                "RADIUS_SERVER_INDEX": "0",
+                "VLAN": "20"
+            }
+        },
+        {
+            "device_name": "PC1",
+            "device_type": "Pc",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0060.2FE1.D771"
+                },
+                {
+                    "type": "eBluetooth",
+                    "mac_address": "00D0.585C.5D0C"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "0",
+                "GATEWAY": "10.10.0.1",
+                "SERVER_IP": "10.30.0.10",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "0",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10"
+            }
+        },
+        {
+            "device_name": "Lois",
+            "device_type": "Pda",
+            "interfaces": [
+                {
+                    "type": "eHostWirelessN",
+                    "mac_address": "000C.CF22.5502"
+                },
+                {
+                    "mac_address": "0000.0C31.5D19"
+                },
+                {
+                    "type": "eBluetooth",
+                    "mac_address": "0060.3EB2.9540"
+                },
+                {
+                    "name": "Wireless0"
+                },
+                {
+                    "name": "3G/4G Cell1"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "0",
+                "GATEWAY": "10.30.0.1",
+                "SERVER_IP": "10.30.0.10",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "0",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10"
+            }
+        },
+        {
+            "device_name": "Bob",
+            "device_type": "Pda",
+            "interfaces": [
+                {
+                    "type": "eHostWirelessN",
+                    "mac_address": "0010.119E.7165"
+                },
+                {
+                    "mac_address": "00D0.D313.8233"
+                },
+                {
+                    "type": "eBluetooth",
+                    "mac_address": "0040.0BBB.7CC3"
+                },
+                {
+                    "name": "Wireless0"
+                },
+                {
+                    "name": "3G/4G Cell1"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "0",
+                "GATEWAY": "10.30.0.1",
+                "SERVER_IP": "10.30.0.10",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "0",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10"
+            }
+        },
+        {
+            "device_name": "R2",
+            "device_type": "Router",
+            "interfaces": [
+                {
+                    "type": "eSmartSerial",
+                    "mac_address": "0004.9ADD.9201"
+                },
+                {
+                    "type": "eSmartSerial",
+                    "mac_address": "0004.9ADD.9201"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0004.9ADD.9201"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0004.9ADD.9202"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0004.9ADD.9203"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "354386",
+                "CONFIG_REGISTER": "8450",
+                "NEXT_CONFIG_REGISTER": "8450",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "DEFAULT": "0",
+                "SCP_SERVER_ENABLED": "false",
+                "CONFIG_REVISION": "0",
+                "UPDATER_IP": "0.0.0.0"
+            }
+        },
+        {
+            "device_name": "R3",
+            "device_type": "Router",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0090.0CD1.6001"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0090.0CD1.6002"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0090.0CD1.6003"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0090.0CD1.6004"
+                },
+                {
+                    "type": "eSmartSerial",
+                    "mac_address": "00D0.97D5.7501"
+                },
+                {
+                    "type": "eSmartSerial",
+                    "mac_address": "00D0.97D5.7501"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.97D5.7501"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.97D5.7502"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.97D5.7503"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "358741",
+                "VLAN_COUNT": "6",
+                "CONFIG_REVISION": "1",
+                "UPDATER_IP": "0.0.0.0",
+                "CONFIG_REGISTER": "8450",
+                "NEXT_CONFIG_REGISTER": "8450",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "DEFAULT": "0",
+                "SCP_SERVER_ENABLED": "false"
+            }
+        },
+        {
+            "device_name": "R4",
+            "device_type": "Router",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.FFA1.2501"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.FFA1.2502"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.FFA1.2503"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.FFA1.2504"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.173A.2401"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.173A.2402"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "0002.173A.2403"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "410422",
+                "VLAN_COUNT": "6",
+                "CONFIG_REVISION": "1",
+                "UPDATER_IP": "0.0.0.0",
+                "CONFIG_REGISTER": "8450",
+                "NEXT_CONFIG_REGISTER": "8450",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "DEFAULT": "0",
+                "SCP_SERVER_ENABLED": "false"
+            }
+        },
+        {
+            "device_name": "Server2",
+            "device_type": "Server",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "0004.9A2A.8AC5"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "1592512549000",
+                "STARTSIMTIME": "4209021",
+                "GATEWAY": "10.4.0.4",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "1",
+                "ADV_SEND_ADVERTISEMENT": "1",
+                "ADV_OTHER_CONFIG_FLAG": "0",
+                "ADV_DEFAULT_LIFETIME": "1800",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "MASK": "255.255.255.0",
+                "DEFAULT_ROUTER": "0.0.0.0",
+                "START_IP": "10.4.0.0",
+                "END_IP": "10.4.0.254",
+                "DNS_SERVER": "0.0.0.0",
+                "ENABLED_SERVER_AUTHENTICATE": "0"
+            }
+        },
+        {
+            "device_name": "SW3",
+            "device_type": "Switch",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6301"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6302"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6303"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6304"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6305"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6306"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6307"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6308"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6309"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630A"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630B"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630C"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630D"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630E"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.630F"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6310"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6311"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6312"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6313"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6314"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6315"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6316"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6317"
+                },
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "00D0.BADA.6318"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.BADA.6319"
+                },
+                {
+                    "type": "eCopperGigabitEthernet",
+                    "mac_address": "00D0.BADA.631A"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "1528494",
+                "CONFIG_REGISTER": "15",
+                "NEXT_CONFIG_REGISTER": "15",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10",
+                "SCP_SERVER_ENABLED": "false",
+                "CONFIG_REVISION": "0",
+                "UPDATER_IP": "0.0.0.0"
+            }
+        },
+        {
+            "device_name": "PC2",
+            "device_type": "Laptop",
+            "interfaces": [
+                {
+                    "type": "eCopperFastEthernet",
+                    "mac_address": "000A.F31B.EB9B"
+                },
+                {
+                    "type": "eBluetooth",
+                    "mac_address": "0001.63A6.A3A0"
+                }
+            ],
+            "configuration": {
+                "STARTTIME": "730972800000",
+                "STARTSIMTIME": "1740005",
+                "GATEWAY": "10.4.0.4",
+                "SERVER_IP": "10.30.0.10",
+                "SSID": "ptcellular",
+                "DHCP_ENABLED": "1",
+                "VLAN": "1",
+                "ENABLED_ROUTER": "0",
+                "TFTP_IP": "0.0.0.0",
+                "IS_DEFAULT_TFTP": "1",
+                "CBAC_HALF_OPEN_SESSION_MULTIPLIER": "1",
+                "STORM_CONTROL_MULTIPLIER": "10"
+            }
+        }
+    ],
+    "topology": [
+        {
+            "TYPE": "eCrossOver",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:1953309258183511239",
+            "PORT": "GigabitEthernet0/1",
+            "TO": "save-ref-id:18126163292085979869",
+            "FROM_DEVICE_MEM_ADDR": "214157872",
+            "TO_DEVICE_MEM_ADDR": "495876232",
+            "FROM_PORT_MEM_ADDR": "336712664",
+            "TO_PORT_MEM_ADDR": "496170440",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:1953309258183511239",
+            "PORT": "GigabitEthernet0/1",
+            "TO": "save-ref-id:18126163292085979869",
+            "FROM_DEVICE_MEM_ADDR": "214157872",
+            "TO_DEVICE_MEM_ADDR": "495876232",
+            "FROM_PORT_MEM_ADDR": "336712664",
+            "TO_PORT_MEM_ADDR": "496170440",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eCrossOver"
+        },
+        {
+            "TYPE": "eCrossOver",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:18126163292085979869",
+            "PORT": "GigabitEthernet0",
+            "TO": "save-ref-id:824660497618859885",
+            "FROM_DEVICE_MEM_ADDR": "495876232",
+            "TO_DEVICE_MEM_ADDR": "498998824",
+            "FROM_PORT_MEM_ADDR": "496173272",
+            "TO_PORT_MEM_ADDR": "499006680",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:18126163292085979869",
+            "PORT": "GigabitEthernet0",
+            "TO": "save-ref-id:824660497618859885",
+            "FROM_DEVICE_MEM_ADDR": "495876232",
+            "TO_DEVICE_MEM_ADDR": "498998824",
+            "FROM_PORT_MEM_ADDR": "496173272",
+            "TO_PORT_MEM_ADDR": "499006680",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eCrossOver"
+        },
+        {
+            "TYPE": "eCrossOver",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:11393698458390079335",
+            "PORT": "GigabitEthernet1/0/13",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "496477904",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "498355336",
+            "TO_PORT_MEM_ADDR": "333706216",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:11393698458390079335",
+            "PORT": "GigabitEthernet1/0/13",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "496477904",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "498355336",
+            "TO_PORT_MEM_ADDR": "333706216",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eCrossOver"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:13229758928253397163",
+            "PORT": "GigabitEthernet1/0/3",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "210461584",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "185920544",
+            "TO_PORT_MEM_ADDR": "343073704",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:13229758928253397163",
+            "PORT": "GigabitEthernet1/0/3",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "210461584",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "185920544",
+            "TO_PORT_MEM_ADDR": "343073704",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "45.2757",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:1277069201258761130",
+            "PORT": "GigabitEthernet1/0/4",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "499244592",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "248601792",
+            "TO_PORT_MEM_ADDR": "335172584",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "45.2757",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:1277069201258761130",
+            "PORT": "GigabitEthernet1/0/4",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "499244592",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "248601792",
+            "TO_PORT_MEM_ADDR": "335172584",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "GigabitEthernet1/0/23",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "529683304",
+            "TO_PORT_MEM_ADDR": "495539272",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "GigabitEthernet1/0/23",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "529683304",
+            "TO_PORT_MEM_ADDR": "495539272",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:5337756383029118779",
+            "PORT": "GigabitEthernet1/0/22",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "528036344",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "529634024",
+            "TO_PORT_MEM_ADDR": "495518488",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:5337756383029118779",
+            "PORT": "GigabitEthernet1/0/22",
+            "TO": "save-ref-id:1953309258183511239",
+            "FROM_DEVICE_MEM_ADDR": "528036344",
+            "TO_DEVICE_MEM_ADDR": "214157872",
+            "FROM_PORT_MEM_ADDR": "529634024",
+            "TO_PORT_MEM_ADDR": "495518488",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eCrossOver",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:5337756383029118779",
+            "PORT": "GigabitEthernet0/1",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "528036344",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "529590904",
+            "TO_PORT_MEM_ADDR": "650549416",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:5337756383029118779",
+            "PORT": "GigabitEthernet0/1",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "528036344",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "529590904",
+            "TO_PORT_MEM_ADDR": "650549416",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eCrossOver"
+        },
+        {
+            "TYPE": "eSerial",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "Serial0/3/0",
+            "TO": "save-ref-id:5337756383029118779",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "528036344",
+            "FROM_PORT_MEM_ADDR": "650530936",
+            "TO_PORT_MEM_ADDR": "650561736",
+            "GEO_VIEW_COLOR": "#000000",
+            "DCEDEV": "save-ref-id:4975243301741283085",
+            "DCEPORT": "Serial0/3/0"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "Serial0/3/0",
+            "TO": "save-ref-id:5337756383029118779",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "528036344",
+            "FROM_PORT_MEM_ADDR": "650530936",
+            "TO_PORT_MEM_ADDR": "650561736",
+            "GEO_VIEW_COLOR": "#000000",
+            "DCEDEV": "save-ref-id:4975243301741283085",
+            "DCEPORT": "Serial0/3/0"
+        },
+        {
+            "TYPE": "eCrossOver",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "FastEthernet0/3/0",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "498361000",
+            "TO_PORT_MEM_ADDR": "498363832",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:4975243301741283085",
+            "PORT": "FastEthernet0/3/0",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "528039560",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "498361000",
+            "TO_PORT_MEM_ADDR": "498363832",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eCrossOver"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:7474260406145009031",
+            "PORT": "GigabitEthernet0/0",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "636251848",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "769735288",
+            "TO_PORT_MEM_ADDR": "650543256",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:7474260406145009031",
+            "PORT": "GigabitEthernet0/0",
+            "TO": "save-ref-id:1347416644918989286",
+            "FROM_DEVICE_MEM_ADDR": "636251848",
+            "TO_DEVICE_MEM_ADDR": "528013832",
+            "FROM_PORT_MEM_ADDR": "769735288",
+            "TO_PORT_MEM_ADDR": "650543256",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:8835663523562422508",
+            "PORT": "FastEthernet0/1",
+            "TO": "save-ref-id:7474260406145009031",
+            "FROM_DEVICE_MEM_ADDR": "648209904",
+            "TO_DEVICE_MEM_ADDR": "636251848",
+            "FROM_PORT_MEM_ADDR": "647937584",
+            "TO_PORT_MEM_ADDR": "498375160",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "1",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:8835663523562422508",
+            "PORT": "FastEthernet0/1",
+            "TO": "save-ref-id:7474260406145009031",
+            "FROM_DEVICE_MEM_ADDR": "648209904",
+            "TO_DEVICE_MEM_ADDR": "636251848",
+            "FROM_PORT_MEM_ADDR": "647937584",
+            "TO_PORT_MEM_ADDR": "498375160",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        },
+        {
+            "TYPE": "eStraightThrough",
+            "LENGTH": "30.4263",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:3866838628797351972",
+            "PORT": "FastEthernet0/2",
+            "TO": "save-ref-id:7474260406145009031",
+            "FROM_DEVICE_MEM_ADDR": "261526112",
+            "TO_DEVICE_MEM_ADDR": "636251848",
+            "FROM_PORT_MEM_ADDR": "501824192",
+            "TO_PORT_MEM_ADDR": "498372328",
+            "GEO_VIEW_COLOR": "#000000"
+        },
+        {
+            "LENGTH": "30.4263",
+            "FUNCTIONAL": "true",
+            "FROM": "save-ref-id:3866838628797351972",
+            "PORT": "FastEthernet0/2",
+            "TO": "save-ref-id:7474260406145009031",
+            "FROM_DEVICE_MEM_ADDR": "261526112",
+            "TO_DEVICE_MEM_ADDR": "636251848",
+            "FROM_PORT_MEM_ADDR": "501824192",
+            "TO_PORT_MEM_ADDR": "498372328",
+            "GEO_VIEW_COLOR": "#000000",
+            "TYPE": "eStraightThrough"
+        }
+    ]
+}
