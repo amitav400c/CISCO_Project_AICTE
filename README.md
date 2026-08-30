@@ -1,16 +1,16 @@
-# 🌐 NetSage AI: AI-Assisted Cisco Network Troubleshooting Assistant with Human Review
+# NetSage AI: AI-Assisted Cisco Network Troubleshooting Assistant with Human Review
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://img.shields.io/badge/dashboard-Streamlit-FF4B4B.svg)](https://streamlit.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests: 5/5 Passing](https://img.shields.io/badge/tests-5%2F5%20passing-brightgreen.svg)]()
 
-> **Project 2 | Applied AI + Network Troubleshooting (AICTE / Cisco Project)**  
+>Applied AI + Network Troubleshooting ( Cisco Project)**  
 > NetSage AI connects Packet Tracer telemetry, show-command outputs, and topology data to provide automated, evidence-backed network root cause analysis with deterministic rule verification and mandatory human-in-the-loop oversight.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 1. [Overview & Architecture](#-overview--architecture)
 2. [Key Innovations & `save-ref-id` Topology Fix](#-key-innovations--save-ref-id-topology-fix)
 3. [Troubleshooting Dataset (`cases.csv`)](#-troubleshooting-dataset-casescsv)
@@ -24,7 +24,7 @@
 
 ---
 
-## 🏗️ Overview & Architecture
+## Overview & Architecture
 
 Junior network engineers frequently know isolated commands but struggle to diagnose root causes when complex symptoms arise across Layer 2 through Layer 7. NetSage AI provides an end-to-end troubleshooting pipeline:
 
@@ -45,7 +45,7 @@ flowchart TD
 
 ---
 
-## 🔑 Key Innovations & `save-ref-id` Topology Fix
+## Key Innovations & `save-ref-id` Topology Fix
 
 ### The `save-ref-id` Problem & Resolution
 In raw Cisco Packet Tracer XML files, inter-device link connections (`<NETWORK><LINKS><LINK><CABLE>`) use internal reference strings such as `save-ref-id:4621551317808789779` for the `FROM` and `TO` connection endpoints rather than human-readable hostnames.
@@ -57,7 +57,7 @@ In raw Cisco Packet Tracer XML files, inter-device link connections (`<NETWORK><
 
 ---
 
-## 📚 Troubleshooting Dataset (`cases.csv`)
+## Troubleshooting Dataset (`cases.csv`)
 
 NetSage AI includes a dataset of **32 comprehensive troubleshooting cases** extracted from real Packet Tracer labs and CCNA/CCNP enterprise scenarios:
 
@@ -75,7 +75,7 @@ NetSage AI includes a dataset of **32 comprehensive troubleshooting cases** extr
 
 ---
 
-## ⚙️ Deterministic Rule Checker
+## Deterministic Rule Checker
 
 The deterministic engine (`src/rule_checker.py`) executes automated checks on configurations and telemetry before AI diagnosis:
 
@@ -91,7 +91,7 @@ The deterministic engine (`src/rule_checker.py`) executes automated checks on co
 
 ---
 
-## 🧠 AI Diagnostician & Structured Prompts
+## AI Diagnostician & Structured Prompts
 
 All AI diagnoses follow strict JSON enforcement governed by `prompts/diagnose_prompt.md`:
 
@@ -119,7 +119,7 @@ All AI diagnoses follow strict JSON enforcement governed by `prompts/diagnose_pr
 
 ---
 
-## ✍️ Human Review & Responsible AI Log
+## Human Review & Responsible AI Log
 
 NetSage AI enforces mandatory Human-in-the-Loop review:
 - **Accepted:** AI diagnosis and fix verified as accurate.
@@ -135,7 +135,7 @@ NetSage AI enforces mandatory Human-in-the-Loop review:
 
 ---
 
-## 🚀 Interactive Streamlit Dashboard
+## Interactive Streamlit Dashboard
 
 Launch the web dashboard:
 ```powershell
@@ -144,17 +144,17 @@ python -m streamlit run app.py
 *(or `streamlit run app.py` if Streamlit is in your system PATH)*
 
 ### Dashboard Tabs:
-1. **📊 Overview & Metrics:** System KPI cards, OSI layer charts, concept distributions, and human agreement rate.
-2. **🔍 Case Explorer:** Searchable table of all 32 cases with expandable show commands and Cisco fixes.
-3. **🕸️ Topology Visualizer:** Network graph of devices and links reconstructed from extracted `save-ref-id`s with device inspector.
-4. **⚙️ Deterministic Rule Checker:** Live rule runner displaying color-coded findings and severity tags.
-5. **🧠 AI Diagnostician:** Live diagnosis panel with prompt inspector and JSON schema validator.
-6. **✍️ Human Review & Responsible AI:** Decision portal to accept/edit/reject diagnoses and view documented AI error logs.
-7. **🚀 Live Broken Lab Demo:** Step-by-step interactive walkthrough of diagnosing, reviewing, fixing, and verifying a broken lab scenario.
+1. ** Overview & Metrics:** System KPI cards, OSI layer charts, concept distributions, and human agreement rate.
+2. ** Case Explorer:** Searchable table of all 32 cases with expandable show commands and Cisco fixes.
+3. ** Topology Visualizer:** Network graph of devices and links reconstructed from extracted `save-ref-id`s with device inspector.
+4. ** Deterministic Rule Checker:** Live rule runner displaying color-coded findings and severity tags.
+5. ** AI Diagnostician:** Live diagnosis panel with prompt inspector and JSON schema validator.
+6. ** Human Review & Responsible AI:** Decision portal to accept/edit/reject diagnoses and view documented AI error logs.
+7. ** Live Broken Lab Demo:** Step-by-step interactive walkthrough of diagnosing, reviewing, fixing, and verifying a broken lab scenario.
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```text
 CISCO project/
@@ -191,7 +191,7 @@ CISCO project/
 
 ---
 
-## 🛠️ Installation & Usage
+## Installation & Usage
 
 ### 1. Prerequisites
 ```powershell
@@ -221,7 +221,7 @@ streamlit run app.py
 
 ---
 
-## 🧪 Automated Verification & Test Suite
+## Automated Verification & Test Suite
 
 Run the full automated test suite:
 ```powershell
