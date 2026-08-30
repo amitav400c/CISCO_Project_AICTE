@@ -1,0 +1,411 @@
+case_id,lab_source,symptom,topology_note,show_outputs,expected_fault,osi_layer,concept_tag,severity,deterministic_findings,expected_next_command,expected_fix
+NETSAGE-001,Keith Lab 2020-07-17.pkt,PC1 is unable to obtain an IP address via DHCP and receives APIPA address (169.254.x.x). Cannot reach default gateway or any network resources.,PC1 connected to Access SW (FastEthernet0/3) in VLAN 10. Core1 acts as Layer 3 Gateway (SVI VLAN 10). DHCP Server is located on Server2 (10.16.8.8) on separate subnet.,"PC1> ipconfig
+IP Address: 169.254.12.44
+Subnet Mask: 255.255.0.0
+Default Gateway: 0.0.0.0
+
+Core1# show run interface vlan 10
+interface Vlan10
+ ip address 10.16.0.1 255.255.255.0
+!
+Core1# show ip dhcp snooping
+DHCP Snooping is enabled on VLAN 10",Missing DHCP Relay Agent ('ip helper-address 10.16.8.8') on Core1 SVI VLAN 10 interface.,Layer 3 (Network) / Layer 7 (Application),DHCP,High,RULE_WARNING: DHCP client on VLAN 10 has no local DHCP pool and SVI Vlan10 is missing 'ip helper-address' pointing to DHCP Server 10.16.8.8.,show run interface vlan 10,"Core1(config)# interface vlan 10
+Core1(config-if)# ip helper-address 10.16.8.8
+Core1(config-if)# end
+Core1# write memory"
+NETSAGE-002,Keith Lab 2020-07-17.pkt,PC1 has static IP 10.16.0.10/24 configured but cannot ping default gateway 10.16.0.1.,PC1 is connected to Access SW port FastEthernet0/3. Gateway 10.16.0.1 resides on Core1 SVI Vlan 10.,"PC1> ping 10.16.0.1
+Pinging 10.16.0.1 with 32 bytes of data:
+Request timed out.
+Request timed out.
+
+Access SW# show vlan brief
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/4 - Fa0/24
+10   USERS_VLAN                       active    
+20   SERVERS_VLAN                     active    Fa0/3
+
+Access SW# show interface FastEthernet0/3 switchport
+Name: Fa0/3
+Administrative Mode: static access
+Access Mode VLAN: 20 (SERVERS_VLAN)",Access Switch port FastEthernet0/3 assigned to wrong VLAN (VLAN 20 instead of VLAN 10).,Layer 2 (Data Link),VLAN,High,RULE_ERROR: Host PC1 IP subnet (10.16.0.0/24 - VLAN 10) connected to switchport Fa0/3 configured with Access VLAN 20.,show interface FastEthernet0/3 switchport,"Access SW(config)# interface FastEthernet0/3
+Access SW(config-if)# switchport mode access
+Access SW(config-if)# switchport access vlan 10
+Access SW(config-if)# end"
+NETSAGE-003,Keith Lab 2020-07-17.pkt,Inter-VLAN communication fails: PC1 (VLAN 10) cannot reach Server3 (VLAN 30). Gateway ping to 10.16.0.1 succeeds.,Trunk connection between Access SW (Fa0/1) and Core1 (Gi1/0/4) carries VLAN traffic.,"Access SW# show interfaces trunk
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      1
+
+Port        Vlans allowed on trunk
+Fa0/1       10,20
+
+Core1# show interfaces trunk
+Port        Mode         Encapsulation  Status        Native vlan
+Gi1/0/4     on           802.1q         trunking      1
+
+Port        Vlans allowed on trunk
+Gi1/0/4     1-4094",Trunk port Fa0/1 on Access SW is missing VLAN 30 in the allowed VLAN list.,Layer 2 (Data Link),VLAN,Medium,"RULE_WARNING: Trunk link Access SW:Fa0/1 to Core1:Gi1/0/4 allowed VLAN list '10,20' excludes active VLAN 30.",show interfaces Fa0/1 switchport,"Access SW(config)# interface FastEthernet0/1
+Access SW(config-if)# switchport trunk allowed vlan add 30
+Access SW(config-if)# end"
+NETSAGE-004,Keith Lab 2020-07-17.pkt,Intermittent connectivity to Gateway 10.16.0.1 from PC1. Duplicate IP address collision logged.,Core1 SVI Vlan 10 has IP 10.16.0.1. A rogue or misconfigured Server was recently connected to SW2.,"Core1# show log
+%IP-4-DUPADDR: Duplicate address 10.16.0.1 on Vlan10, sourced by 0001.974c.6b79
+
+SW2# show mac address-table | include 0001.974c.6b79
+10    0001.974c.6b79    DYNAMIC     Fa0/2
+
+Server2# show ip interface brief
+FastEthernet0       10.16.0.1       YES manual up                    up",Duplicate IP address configured on Server2 (10.16.0.1) conflicting with Core1 Gateway IP.,Layer 3 (Network),Gateway,Critical,RULE_ERROR: Duplicate IP Address detected: 10.16.0.1 is configured on both Core1 (Vlan10) and Server2 (FastEthernet0).,show ip interface brief,"Server2(config)# interface FastEthernet0
+Server2(config-if)# ip address 10.16.8.8 255.255.255.0
+Server2(config-if)# end"
+NETSAGE-005,Keith Lab 2020-07-17.pkt,"PC1 (10.16.0.10) cannot reach Server2 (10.16.8.8). Ping from PC1 to R1 (10.16.6.5) succeeds, but ping to 10.16.8.8 fails.",Core1 connects to R1 via Gi1/0/3. R1 connects to R2 via MetroE. R2 connects to Server2 via SW2.,"R1# show ip route 10.16.8.0
+% Subnet not in table
+
+R1# show ip route
+Gateway of last resort is not set
+     10.0.0.0/8 is variably subnetted, 4 subnets, 2 masks
+C       10.16.6.0/24 is directly connected, GigabitEthernet0/0
+C       10.16.7.0/28 is directly connected, GigabitEthernet0/2
+C       192.168.1.0/24 is directly connected, GigabitEthernet0/1
+
+R1# show ip ospf neighbor
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           1   FULL/BDR        00:00:33    10.16.7.6       GigabitEthernet0/2",Missing route to destination subnet 10.16.8.0/24 on Router R1; R2 is not advertising 10.16.8.0/24 into OSPF.,Layer 3 (Network),Routing,High,RULE_ERROR: No route to destination subnet 10.16.8.0/24 found in R1 routing table.,show ip ospf neighbor on R2 and show run | section router ospf,"R2(config)# router ospf 1
+R2(config-router)# network 10.16.8.0 0.0.0.255 area 0
+R2(config-router)# end"
+NETSAGE-006,2020-06-18 OSPF.pkt,OSPF neighbor adjacency between R1 and R2 is stuck in EXSTART/EXCHANGE state and never reaches FULL.,R1 and R2 connect over point-to-point GigabitEthernet0/2 link.,"R1# show ip ospf neighbor
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           1   EXSTART/ -      00:00:38    10.16.7.6       GigabitEthernet0/2
+
+R1# show interface GigabitEthernet0/2 | include MTU
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec
+
+R2# show interface GigabitEthernet0/0 | include MTU
+  MTU 1400 bytes, BW 1000000 Kbit/sec, DLY 10 usec",MTU mismatch on OSPF link between R1 (MTU 1500) and R2 (MTU 1400) preventing DBD packet exchange.,Layer 3 (Network),OSPF,High,RULE_ERROR: MTU mismatch detected on link R1:Gi0/2 (MTU 1500) <-> R2:Gi0/0 (MTU 1400).,show interface GigabitEthernet0/0 | include MTU on both routers,"R2(config)# interface GigabitEthernet0/0
+R2(config-if)# ip mtu 1500
+R2(config-if)# end"
+NETSAGE-007,2020-06-18 OSPF.pkt,R1 and MetroE switch fail to form OSPF adjacency on point-to-point link Gi0/2 <-> Gi1/0/1.,Link connecting R1 Gi0/2 to MetroE Gi1/0/1.,"R1# show ip interface GigabitEthernet0/2
+GigabitEthernet0/2 is up, line protocol is up
+  Internet address is 10.16.7.5/28
+  Broadcast address is 10.16.7.15
+
+MetroE# show ip interface GigabitEthernet1/0/1
+GigabitEthernet1/0/1 is up, line protocol is up
+  Internet address is 10.16.7.1/24
+  Broadcast address is 10.16.7.255",Subnet mask mismatch on interconnect link: R1 configured with /28 (255.255.255.240) and MetroE with /24 (255.255.255.0).,Layer 3 (Network),OSPF,Critical,RULE_ERROR: Subnet mask mismatch on link R1:Gi0/2 (255.255.255.240) <-> MetroE:Gi1/0/1 (255.255.255.0).,show ip interface brief,"MetroE(config)# interface GigabitEthernet1/0/1
+MetroE(config-if)# ip address 10.16.7.1 255.255.255.240
+MetroE(config-if)# end"
+NETSAGE-008,Keith Lab 2020-07-17.pkt,R1 is not forming OSPF adjacency with Core1 across Gi0/0 <-> Gi1/0/3 link.,R1 connects to Core1 over subnet 10.16.6.0/24.,"R1# show run | section router ospf
+router ospf 1
+ router-id 3.3.3.3
+ passive-interface GigabitEthernet0/0
+ network 10.16.6.0 0.0.0.255 area 0
+ network 10.16.7.0 0.0.0.15 area 0
+
+R1# show ip ospf neighbor
+% No neighbors found on GigabitEthernet0/0","Interface GigabitEthernet0/0 is configured as passive-interface under OSPF on R1, suppressing Hello packets.",Layer 3 (Network),OSPF,Medium,RULE_WARNING: Interface GigabitEthernet0/0 is set to passive-interface under router ospf 1 despite having an active router neighbor.,show ip ospf interface GigabitEthernet0/0,"R1(config)# router ospf 1
+R1(config-router)# no passive-interface GigabitEthernet0/0
+R1(config-router)# end"
+NETSAGE-009,2020-05-20 Routing  NTP and more WTW.pkt,"PC2 cannot open web page 'thekeithbarker.com' in web browser, but direct ping to Server IP 10.30.0.10 succeeds.",PC2 is on corporate LAN. Web and DNS services are hosted on Server (10.30.0.10).,"PC2> ping thekeithbarker.com
+Host name could not be resolved: thekeithbarker.com
+
+PC2> ping 10.30.0.10
+Pinging 10.30.0.10 with 32 bytes of data:
+Reply from 10.30.0.10: bytes=32 time=4ms TTL=126
+
+PC2> ipconfig /all
+IP Address: 10.30.10.50
+Subnet Mask: 255.255.255.0
+Default Gateway: 10.30.10.1
+DNS Server: 10.30.0.99",Incorrect DNS Server IP configured on PC2 (10.30.0.99 instead of 10.30.0.10).,Layer 7 (Application),DNS,Medium,RULE_ERROR: Host PC2 DNS server IP 10.30.0.99 does not match known DNS server 10.30.0.10.,ipconfig /all on PC2 and nslookup thekeithbarker.com,Configure PC2 network settings with DNS Server: 10.30.0.10.
+NETSAGE-010,2020-05-16 AAA NTP For Learnersv3.pkt,"Bob (Wireless Employee device, 10.30.20.50) cannot SSH to MLS1 management IP 10.30.0.1. Connection refused or timed out.",Employee wireless client subnet 10.30.20.0/24 connects via WLC and MLS1.,"Bob> ssh -l admin 10.30.0.1
+Connection to 10.30.0.1 closed by remote host.
+
+MLS1# show access-lists 100
+Extended IP access list 100
+    10 permit tcp 10.30.10.0 0.0.0.255 any eq 22 (45 matches)
+    20 deny ip any any (120 matches)
+
+MLS1# show run | section line vty
+line vty 0 4
+ access-class 100 in
+ login authentication default
+ transport input ssh",Access-class ACL 100 on MLS1 VTY lines is missing permit statement for Employee subnet (10.30.20.0/24).,Layer 4 (Transport) / Layer 7 (Application),ACL,High,RULE_WARNING: ACL 100 on line vty explicitly denies subnet 10.30.20.0/24 with implicit deny rule.,show access-lists 100 and show run | section line vty,"MLS1(config)# ip access-list extended 100
+MLS1(config-ext-nacl)# 15 permit tcp 10.30.20.0 0.0.0.255 any eq 22
+MLS1(config-ext-nacl)# end"
+NETSAGE-011,2020-05-02 WLC and RADIUS5.pkt,Security audit failure: Guest Wi-Fi devices (10.30.30.0/24) can access internal corporate database servers on 10.30.0.0/24.,Guest clients associate with GuestWiFi WLAN on WLC. Traffic routed through MLS1.,"Guest Device> ping 10.30.0.10
+Reply from 10.30.0.10: bytes=32 time=5ms TTL=127
+
+MLS1# show ip access-group
+Interface Vlan30: Inbound access list is not set
+
+MLS1# show run interface vlan 30
+interface Vlan30
+ description Guest WiFi Gateway
+ ip address 10.30.30.1 255.255.255.0",Missing Guest Isolation ACL on MLS1 SVI Vlan30 allowing unrestricted guest access to internal enterprise networks.,Layer 4 (Transport),Wireless,Critical,RULE_WARNING: Guest VLAN interface Vlan30 has no inbound ACL applied to restrict internal subnet access.,show run interface vlan 30 and show access-lists,"MLS1(config)# ip access-list extended GUEST_ISOLATION
+MLS1(config-ext-nacl)# permit udp any any eq domain
+MLS1(config-ext-nacl)# permit udp any any eq bootps
+MLS1(config-ext-nacl)# deny ip any 10.30.0.0 0.0.255.255
+MLS1(config-ext-nacl)# permit ip any any
+MLS1(config-ext-nacl)# exit
+MLS1(config)# interface vlan 30
+MLS1(config-if)# ip access-group GUEST_ISOLATION in
+MLS1(config-if)# end"
+NETSAGE-012,2020-05-02 WLC and RADIUS5.pkt,Corporate Wireless clients fail 802.1X authentication when attempting to associate with CorpWiFi.,WLC (10.30.0.2) authenticates wireless clients via RADIUS server on 10.30.0.10.,"WLC CLI> show radius summary
+Vendor ID........................................ 0
+Radius Authentication Servers:
+Server Index 1: IP: 10.30.0.10, Port: 1812, Status: Active
+
+Server# show radius-server status
+RADIUS Server: 10.30.0.10
+Auth Port: 1812, Key: Cisco!23
+Failed Access-Requests: 14 (Invalid Authenticator / Key Mismatch)",RADIUS shared secret key mismatch configured between WLC and AAA/RADIUS Server.,Layer 7 (Application),Wireless,High,RULE_ERROR: RADIUS authentication failures logged on Server 10.30.0.10 due to key mismatch.,show radius summary on WLC and check RADIUS client config on Server,Configure matching RADIUS shared secret key 'Cisco!23' on WLC WLAN Security settings for RADIUS Authentication Server.
+NETSAGE-013,2020-05-16 AAA NTP For Learnersv3.pkt,MLS1 clock is not synchronizing with NTP server 10.30.0.10; show ntp status shows unsynchronized.,NTP Server 10.30.0.10 requires authenticated NTP with Key 1 md5 Cisco!23.,"MLS1# show ntp status
+Clock is unsynchronized, stratum 16, no reference clock
+nominal freq is 250.0000 Hz, actual freq is 250.0000 Hz, precision is 2**18
+
+MLS1# show ntp associations
+      address         ref clock     st   when     poll    reach  delay   offset    disp
+ ~10.30.0.10          .INIT.        16      -       64        0  0.000    0.000 15937.5
+ * master (synced), # master (unsynced), + selected, - candidate, ~ configured
+
+MLS1# show run | include ntp
+ntp server 10.30.0.10 key 1
+ntp authenticate
+ntp authentication-key 1 md5 WrongSecret!",NTP authentication key secret mismatch on MLS1 (configured with 'WrongSecret!' instead of 'Cisco!23').,Layer 7 (Application),NTP,Low,RULE_WARNING: NTP status is unsynchronized (stratum 16); NTP authentication enabled with key mismatch.,show ntp associations and show run | include ntp,"MLS1(config)# ntp authentication-key 1 md5 Cisco!23
+MLS1(config)# ntp trusted-key 1
+MLS1(config)# end"
+NETSAGE-014,2020-05-20 Routing  NTP and more WTW.pkt,"Branch office PCs cannot access public internet IP addresses. Ping to router inside interface succeeds, but translation fails.",Router R1 provides NAT/PAT for LAN subnet 192.168.1.0/24 to ISP on Gi0/1.,"R1# show ip nat translations
+% No active translations
+
+R1# show ip nat statistics
+Total active translations: 0 (0 static, 0 dynamic, 0 extended)
+Outside interfaces: GigabitEthernet0/1
+Inside interfaces: GigabitEthernet0/0
+Hits: 0  Misses: 24
+
+R1# show run | include ip nat
+ip nat inside source list 1 interface GigabitEthernet0/1
+access-list 1 permit 192.168.1.0 0.0.0.255","Missing 'overload' keyword on 'ip nat inside source list' command, preventing Port Address Translation (PAT) for multiple hosts.",Layer 3 (Network),NAT,High,RULE_ERROR: Dynamic NAT configured without 'overload' keyword on single public IP interface.,show ip nat statistics and show run | include nat,"R1(config)# no ip nat inside source list 1 interface GigabitEthernet0/1
+R1(config)# ip nat inside source list 1 interface GigabitEthernet0/1 overload
+R1(config)# end"
+NETSAGE-015,Keith Lab 2020-07-17.pkt,R1 cannot ping Core1; link state is down on R1 side.,R1 GigabitEthernet0/0 connects to Core1 GigabitEthernet1/0/3.,"R1# show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     10.16.6.5       YES manual administratively down down    
+GigabitEthernet0/1     192.168.1.5     YES manual up                    up      
+GigabitEthernet0/2     10.16.7.5       YES manual up                    up      
+
+Core1# show ip interface brief
+GigabitEthernet1/0/3   10.16.6.1       YES manual up                    down",Interface GigabitEthernet0/0 on R1 is administratively down (shutdown).,Layer 1 (Physical),Gateway,Critical,RULE_ERROR: Interface R1:GigabitEthernet0/0 is administratively down (shutdown).,show ip interface brief on R1,"R1(config)# interface GigabitEthernet0/0
+R1(config-if)# no shutdown
+R1(config-if)# end"
+NETSAGE-016,Keith Lab 2020-07-17.pkt,High packet loss and late collisions observed between SW2 and R2.,Link between SW2 FastEthernet0/1 and R2 GigabitEthernet0/1.,"SW2# show interfaces FastEthernet0/1
+FastEthernet0/1 is up, line protocol is up
+  Half-duplex, 100Mb/s, media type is 100BaseTX
+  342 late collision, 1294 collision, 0 CRC
+
+R2# show interfaces GigabitEthernet0/1
+GigabitEthernet0/1 is up, line protocol is up
+  Full-duplex, 100Mb/s, media type is 100BaseTX
+  0 late collision, 0 CRC",Duplex mismatch: SW2 FastEthernet0/1 is forced to Half-duplex while R2 is set to Full-duplex.,Layer 2 (Data Link),STP,Medium,RULE_WARNING: Duplex mismatch detected on link SW2:Fa0/1 (Half) <-> R2:Gi0/1 (Full).,show interfaces FastEthernet0/1 status,"SW2(config)# interface FastEthernet0/1
+SW2(config-if)# duplex auto
+SW2(config-if)# speed auto
+SW2(config-if)# end"
+NETSAGE-017,Keith Lab 2020-07-17.pkt,Newly connected desktop to Access SW port FastEthernet0/5 loses link immediately. Port LED turns amber.,Access SW has Port Security configured on user ports.,"Access SW# show interfaces FastEthernet0/5 status
+Port      Name               Status       Vlan       Duplex  Speed Type
+Fa0/5                        err-disabled 10           auto   auto 10/100BaseTX
+
+Access SW# show port-security interface FastEthernet0/5
+Port Security              : Enabled
+Port Status                : Secure-shutdown
+Violation Mode             : Shutdown
+Aging Time                 : 0 mins
+Max MAC Addresses          : 1
+Total MAC Addresses        : 1
+Configured MAC Addresses   : 1
+Last Source Address:Vlan   : 0050.7966.6805:10
+Security Violation Count   : 1",Port security violation: Unauthorized MAC address connected to FastEthernet0/5 exceeding max MAC count (err-disabled).,Layer 2 (Data Link),Security,High,RULE_ERROR: Interface Access SW:Fa0/5 is in err-disabled state due to Port Security violation.,show port-security interface FastEthernet0/5,"Access SW(config)# interface FastEthernet0/5
+Access SW(config-if)# shutdown
+Access SW(config-if)# switchport port-security mac-address sticky
+Access SW(config-if)# no shutdown
+Access SW(config-if)# end"
+NETSAGE-018,Keith Lab 2020-07-17.pkt,Spanning-tree topology instability; Access SW unexpectedly became the Root Bridge for VLAN 10.,"Core1, Core2, and Access SW participate in PVST+.","Access SW# show spanning-tree vlan 10
+VLAN0010
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32778
+             Address     0001.42a1.1101
+             This bridge is the root
+
+Core1# show spanning-tree vlan 10
+VLAN0010
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32778
+             Address     0001.42a1.1101
+             Cost        4
+  Bridge ID  Priority    32778 (priority 32768 sys-id-ext 10)
+             Address     0005.5e59.7301",STP Priority was left at default (32768) on all switches; Access SW won election due to lowest MAC address.,Layer 2 (Data Link),STP,Medium,RULE_WARNING: Core1/Core2 STP priority is default 32768; Root bridge is non-core switch Access SW.,show spanning-tree vlan 10 on all switches,"Core1(config)# spanning-tree vlan 10 root primary
+Core2(config)# spanning-tree vlan 10 root secondary
+Core1(config)# end"
+NETSAGE-019,Keith Lab 2020-07-17.pkt,PC1 has IP 10.16.0.50/24 but cannot ping its gateway or any remote host.,PC1 is in subnet 10.16.0.0/24. True Gateway is Core1 (10.16.0.1).,"PC1> ipconfig
+IP Address: 10.16.0.50
+Subnet Mask: 255.255.255.0
+Default Gateway: 10.16.1.1
+
+PC1> ping 10.16.1.1
+Pinging 10.16.1.1 with 32 bytes of data:
+Request timed out.
+
+Core1# show ip interface brief | include Vlan10
+Vlan10                 10.16.0.1       YES manual up                    up",Gateway IP mismatch: PC1 default gateway configured as 10.16.1.1 instead of 10.16.0.1.,Layer 3 (Network),Gateway,High,RULE_ERROR: Host PC1 default gateway 10.16.1.1 is in a different subnet than host IP 10.16.0.50/24.,ipconfig on PC1 and show ip interface brief on Gateway,Update PC1 configuration: set Default Gateway to 10.16.0.1.
+NETSAGE-020,2020-06-18 OSPF.pkt,Traffic from Bob to Server2 is taking sub-optimal route across slow WAN link instead of fast local path.,MLS1 can reach Server2 via R2 (Gigabit) or R3 (Serial/Backup).,"MLS1# show ip route 10.16.16.0
+Routing entry for 10.16.16.0/24
+  Known via ""ospf 1"", distance 110, metric 550, type intra area
+  Routing Descriptor Blocks:
+  * 10.16.7.7, from 3.3.3.3, via GigabitEthernet1/0/3
+
+MLS1# show ip ospf interface GigabitEthernet1/0/2
+GigabitEthernet1/0/2 is up, line protocol is up
+  Internet Address 10.16.7.1/28, Area 0
+  Process ID 1, Router ID 1.1.1.1, Network Type BROADCAST, Cost: 500",Sub-optimal routing caused by manually configured high OSPF cost ('ip ospf cost 500') on GigabitEthernet1/0/2.,Layer 3 (Network),OSPF,Medium,RULE_WARNING: High OSPF cost (500) manually set on high-speed interface Gi1/0/2 causing sub-optimal path selection.,show ip ospf interface GigabitEthernet1/0/2,"MLS1(config)# interface GigabitEthernet1/0/2
+MLS1(config-if)# no ip ospf cost
+MLS1(config-if)# end"
+NETSAGE-021,Keith Lab 2020-07-17.pkt,CDP native VLAN mismatch errors flooding switch console between SW2 and SW3.,Trunk cable connecting SW2 Fa0/24 to SW3 Fa0/24.,"SW2#
+%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0/24 (1), with SW3 FastEthernet0/24 (99).
+
+SW2# show interfaces FastEthernet0/24 trunk
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/24      on           802.1q         trunking      1
+
+SW3# show interfaces FastEthernet0/24 trunk
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/24      on           802.1q         trunking      99","Native VLAN mismatch across 802.1Q trunk link (SW2 has Native VLAN 1, SW3 has Native VLAN 99).",Layer 2 (Data Link),VLAN,Medium,RULE_ERROR: Native VLAN mismatch on trunk link SW2:Fa0/24 (VLAN 1) <-> SW3:Fa0/24 (VLAN 99).,show interfaces trunk on both switches,"SW2(config)# interface FastEthernet0/24
+SW2(config-if)# switchport trunk native vlan 99
+SW2(config-if)# end"
+NETSAGE-022,2020-05-20 Routing  NTP and more WTW.pkt,Branch router R1 cannot forward outbound packets; default route next-hop is unreachable.,R1 default route points to ISP next-hop.,"R1# show ip route static
+S*    0.0.0.0/0 [1/0] via 192.168.1.254
+
+R1# show ip interface brief GigabitEthernet0/1
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/1     192.168.1.5     YES manual up                    up
+
+R1# show arp | include 192.168.1.254
+% Incomplete ARP entry for 192.168.1.254",Static default route configured with incorrect next-hop IP (192.168.1.254 instead of 192.168.1.1).,Layer 3 (Network),Routing,High,RULE_ERROR: Static route next-hop 192.168.1.254 has incomplete ARP and is unresponsive.,show ip route static and show arp,"R1(config)# no ip route 0.0.0.0 0.0.0.0 192.168.1.254
+R1(config)# ip route 0.0.0.0 0.0.0.0 192.168.1.1
+R1(config)# end"
+NETSAGE-023,Keith Lab 2020-07-17.pkt,Access-list applied to prevent external attacks is inadvertently blocking all outbound web traffic from internal hosts.,Extended ACL 101 applied on router outside interface Gi0/1.,"R1# show access-lists 101
+Extended IP access list 101
+    10 permit tcp any any established
+    20 deny ip any any (452 matches)
+
+R1# show run interface GigabitEthernet0/1
+interface GigabitEthernet0/1
+ ip address 192.168.1.5 255.255.255.0
+ ip access-group 101 out","ACL 101 was applied in the 'out' direction instead of 'in' on interface Gi0/1, blocking outbound client requests.",Layer 4 (Transport),ACL,Critical,RULE_ERROR: Directional ACL misapplication: Inbound filter applied as 'out' on interface GigabitEthernet0/1.,show run interface GigabitEthernet0/1 and show access-lists 101,"R1(config)# interface GigabitEthernet0/1
+R1(config-if)# no ip access-group 101 out
+R1(config-if)# ip access-group 101 in
+R1(config-if)# end"
+NETSAGE-024,2020-05-16 AAA NTP For Learnersv3.pkt,"DHCP clients receive IP address and DNS, but cannot reach internet or gateway.",MLS1 runs local DHCP pool for LAN clients.,"PC1> ipconfig
+IP Address: 10.30.10.25
+Subnet Mask: 255.255.255.0
+Default Gateway: 10.30.10.254
+
+MLS1# show run | section ip dhcp pool
+ip dhcp pool LAN_POOL
+ network 10.30.10.0 255.255.255.0
+ default-router 10.30.10.254
+ dns-server 10.30.0.10
+
+MLS1# show ip interface brief | include Vlan10
+Vlan10                 10.30.10.1      YES manual up                    up",DHCP pool option 'default-router' configured with wrong IP (10.30.10.254 instead of router SVI IP 10.30.10.1).,Layer 7 (Application) / Layer 3 (Network),DHCP,High,RULE_ERROR: DHCP pool 'LAN_POOL' default-router 10.30.10.254 does not match SVI Vlan10 IP 10.30.10.1.,show run | section ip dhcp pool,"MLS1(config)# ip dhcp pool LAN_POOL
+MLS1(dhcp-config)# default-router 10.30.10.1
+MLS1(dhcp-config)# end"
+NETSAGE-025,Keith Lab 2020-07-17.pkt,Network administrator cannot Telnet or SSH to SW2 management IP; connection is immediately closed.,SW2 is an Access Switch in management subnet 192.168.1.0/24.,"Admin_PC> telnet 192.168.1.100
+Trying 192.168.1.100 ...
+% Connection closed by foreign host.
+
+SW2# show run | section line vty
+line vty 0 4
+ transport input all
+! (missing password / login / login local)","VTY lines missing 'login' / 'login local' or password configuration on SW2, causing Cisco IOS to reject unauthenticated remote connections.",Layer 7 (Application),Management,Medium,RULE_WARNING: VTY lines 0-4 on SW2 have no login method or password configured.,show run | section line vty,"SW2(config)# line vty 0 4
+SW2(config-line)# login local
+SW2(config-line)# transport input ssh
+SW2(config-line)# end"
+NETSAGE-026,2020-05-20 Routing  NTP and more WTW.pkt,"Both Core1 and Core2 claim Active HSRP state, causing packet flapping and ARP table thrashing.",Core1 and Core2 provide redundant first-hop routing for VLAN 10.,"Core1# show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        1    110 P Active  local           10.16.0.3       10.16.0.1
+
+Core2# show standby brief
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        1    100   Active  local           unknown         10.16.0.254","HSRP Virtual IP mismatch in Group 1: Core1 configured with virtual IP 10.16.0.1, while Core2 configured with 10.16.0.254.",Layer 3 (Network),Gateway,Critical,RULE_ERROR: HSRP Group 1 Virtual IP mismatch: Core1 (10.16.0.1) vs Core2 (10.16.0.254).,show standby brief on both core switches,"Core2(config)# interface vlan 10
+Core2(config-if)# standby 1 ip 10.16.0.1
+Core2(config-if)# end"
+NETSAGE-027,2020-05-20 Routing  NTP and more WTW.pkt,NAT translation fails for LAN clients on R1; 'show ip nat translations' remains empty.,R1 acts as NAT gateway between LAN (Gi0/0) and WAN (Gi0/1).,"R1# show ip nat statistics
+Total active translations: 0
+Outside interfaces: GigabitEthernet0/1
+Inside interfaces: (none)
+
+R1# show run interface GigabitEthernet0/0
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+! (Missing 'ip nat inside')",Interface GigabitEthernet0/0 is missing 'ip nat inside' configuration.,Layer 3 (Network),NAT,High,RULE_ERROR: Router R1 has no 'ip nat inside' interface defined.,show ip nat statistics and show run interface GigabitEthernet0/0,"R1(config)# interface GigabitEthernet0/0
+R1(config-if)# ip nat inside
+R1(config-if)# end"
+NETSAGE-028,2020-05-02 WLC and RADIUS5.pkt,Access Point AP1 status on WLC shows 'Not Joined' (Registration Request Timeout).,AP1 (10.30.40.10) discovers WLC (10.30.0.2) via Option 43 in DHCP.,"WLC# show ap summary
+Number of APs.................................... 0
+
+AP1# show capwap client status
+CAPWAP State: Discovery
+Discovery Request sent to: 255.255.255.255
+Discovery Response: None received
+
+DHCP_Server# show run | section ip dhcp pool AP_POOL
+ip dhcp pool AP_POOL
+ network 10.30.40.0 255.255.255.0
+ default-router 10.30.40.1
+! (Missing Option 43 hex for WLC IP 10.30.0.2)",DHCP Scope for Access Points missing Option 43 (or DNS 'cisco-capwap-controller') specifying WLC IP address 10.30.0.2.,Layer 7 (Application) / Layer 3 (Network),Wireless,High,RULE_ERROR: AP DHCP pool missing Option 43 WLC controller IP attribute.,show capwap client status on AP and check DHCP pool on server,"DHCP_Server(config)# ip dhcp pool AP_POOL
+DHCP_Server(dhcp-config)# option 43 hex f1040a1e0002
+DHCP_Server(dhcp-config)# end"
+NETSAGE-029,Keith Lab 2020-07-17.pkt,Access switch port Fa0/10 was shut down automatically when a student connected an unmanaged switch.,Access SW has BPDU Guard enabled on PortFast enabled ports.,"Access SW# show interfaces FastEthernet0/10 status
+Port      Name               Status       Vlan       Duplex  Speed Type
+Fa0/10                       err-disabled 10           auto   auto 10/100BaseTX
+
+Access SW# show log
+%SPANTREE-2-BLOCK_BPDUGUARD: Received BPDU on port Fa0/10 with BPDU Guard enabled. Disabling port.",BPDU Guard triggered on PortFast-enabled port Fa0/10 upon receiving BPDUs from unauthorized switch.,Layer 2 (Data Link),STP,Medium,RULE_WARNING: Port Fa0/10 err-disabled by Spanning Tree BPDU Guard.,show spanning-tree summary and show interfaces status err-disabled,"Disconnect rogue switch, then:
+Access SW(config)# interface FastEthernet0/10
+Access SW(config-if)# shutdown
+Access SW(config-if)# no shutdown
+Access SW(config-if)# end"
+NETSAGE-030,Keith Lab 2020-07-17.pkt,Standard ACL 10 fails to permit host traffic from 192.168.1.0/24 subnet; all packets dropped.,ACL 10 applied on router R1.,"R1# show access-lists 10
+Standard IP access list 10
+    10 permit 192.168.1.0, wildcard bits 255.255.255.0 (0 matches)
+    20 deny any (1420 matches)
+
+R1# show run | include access-list 10
+access-list 10 permit 192.168.1.0 255.255.255.0",Wildcard mask inversion syntax error in ACL 10: configured with subnet mask '255.255.255.0' instead of wildcard mask '0.0.0.255'.,Layer 4 (Transport),ACL,High,RULE_ERROR: Inverted wildcard mask in ACL 10: '255.255.255.0' used instead of '0.0.0.255'.,show access-lists 10,"R1(config)# no access-list 10
+R1(config)# access-list 10 permit 192.168.1.0 0.0.0.255
+R1(config)# end"
+NETSAGE-031,Keith Lab 2020-07-17.pkt,Dynamic ARP Inspection (DAI) dropping valid ARP replies on trunk link between Access SW and Core1.,DAI enabled globally on VLAN 10.,"Access SW# show ip arp inspection vlan 10
+Vlan 10: Enabled
+
+Access SW# show ip arp inspection statistics vlan 10
+ Vlan 10:
+  Forwarded: 0
+  Dropped: 254 (DHCP snooping permit/deny drops)
+
+Access SW# show interfaces Fa0/1 switchport
+Port Fa0/1 is Trunk port to Core1
+ARP Inspection Trust: Disabled",Uplink trunk port Fa0/1 is not configured as an ARP inspection trusted port ('ip arp inspection trust').,Layer 2 (Data Link),Security,High,"RULE_WARNING: Trunk uplink port Fa0/1 has ARP inspection trust disabled, causing legitimate ARP drops.",show ip arp inspection interfaces,"Access SW(config)# interface FastEthernet0/1
+Access SW(config-if)# ip arp inspection trust
+Access SW(config-if)# end"
+NETSAGE-032,Keith Lab 2020-07-17.pkt,IPv6 end device cannot route packets across router R1; neighbor discovery fails.,R1 configured with IPv6 addresses on interfaces.,"R1# show ipv6 interface brief
+GigabitEthernet0/0     [up/up]
+    FE80::1
+    2001:DB8:10:16::1
+GigabitEthernet0/1     [up/up]
+    FE80::2
+    2001:DB8:192:168::1
+
+R1# show run | include ipv6 unicast-routing
+% No matches found",IPv6 unicast routing is disabled globally on Router R1 (missing 'ipv6 unicast-routing').,Layer 3 (Network),Routing,Medium,RULE_ERROR: Global IPv6 routing disabled on Router R1 ('ipv6 unicast-routing' missing).,show ipv6 route and show run | include ipv6,"R1(config)# ipv6 unicast-routing
+R1(config)# end"
